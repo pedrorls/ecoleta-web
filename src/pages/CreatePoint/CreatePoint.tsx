@@ -1,5 +1,5 @@
 import React, { useEffect, useState, ChangeEvent, FormEvent } from "react";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { FiArrowLeft } from "react-icons/fi";
 import { Map, TileLayer, Marker } from "react-leaflet";
 
@@ -17,6 +17,8 @@ interface IItems {
 }
 
 export const CreatePoint = () => {
+  const history = useHistory();
+
   const [items, setItems] = useState<Array<IItems>>([]);
   const [ufs, setUfs] = useState<Array<string>>([]);
   const [cities, setCities] = useState<Array<string>>([]);
@@ -62,7 +64,7 @@ export const CreatePoint = () => {
         throw new Error(e);
       }
     };
-    // retrieveUfs();
+    retrieveUfs();
   }, []);
 
   useEffect(() => {
@@ -117,6 +119,7 @@ export const CreatePoint = () => {
     try {
       await PointAPI.create(data);
       alert("Ponto de coleta criado");
+      history.push("/");
     } catch (e) {
       throw new Error(e);
     }
